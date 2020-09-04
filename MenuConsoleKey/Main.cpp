@@ -1,121 +1,199 @@
-#include <iostream>
-#include <Windows.h>
-int main() {
+﻿#include "head.h"
+const char* space = "\t\t";
+HWND console = nullptr;
+POINT PosConsole = { 200,200 };
+POINT sizeConsole = { 300,200 };
 
-	struct menu {
-		int numero;
-		bool x;
+void move_console(int pos, int max)
+{
+	if (pos == max)
+	{
+		system("cls");
+		std::cout << "\nUSE ARRAW TO MOVE CONSOLE\nSpace increcent the speed\nAND USE F2 TO EXIT MOVE";
+	bool finish = false;
+		while (!finish)
+		{
+			SetWindowPos(console, NULL, PosConsole.x, PosConsole.y, sizeConsole.x , sizeConsole.y, NULL);
+			int speed = 1;
+			if (GetAsyncKeyState(VK_SPACE))
+				speed += 2;
+
+			if (GetAsyncKeyState(VK_UP))				
+				PosConsole.y -= speed;
+			
+			if (GetAsyncKeyState(VK_DOWN))
+				++PosConsole.y += speed;
+				
+			
+			if (GetAsyncKeyState(VK_RIGHT))
+				PosConsole.x += speed;
+			
+			if (GetAsyncKeyState(VK_LEFT))
+				PosConsole.x -= speed;
+			
+			if (GetAsyncKeyState(VK_F2))
+				finish = true;
+			Sleep(1);
+		}
+	}
+}
+
+void loading()
+{
+	ProgressBar prog("", 0, 0);
+	bool exit = true;
+	while (exit)
+	{
+		//cls();
+		setCursorPosition(0, 0);
+		if (prog.value < 25)
+			setConsoleColour(0x4);
+		else if (prog.value < 50)
+			setConsoleColour(0xE);
+		else
+			setConsoleColour(0xA);
+
+		std::cout << "LOADING..." << std::endl;
+		prog.Show(0);
+		Sleep(10);
+		prog.ChangeValue(0);
+		std::cout.flush();
+		if (prog.value == 100.0F)
+			exit = false;
+	}
+
+}
+
+void menu()
+{
+	cls();
+	setConsoleColour(0x7);
+	bool change = true;
+	bool finish = false;
+	int pos = 0;
+	int max = 0;
+	checkbox checkbox1("caixa1");
+	checkbox checkbox2("checked", true);
+	TextEdit text1("Texto","Shadowy");
+	TrackBar trackbar1("Num", 0, 10);
+	ComboBox cb1("Textos");
+
+
+
+	std::string Shadow[5] = { "","\xB0","\xB1","\xB2"," " };
+	std::string  Style[5][12] = {
+	{""," "," "," "," "," "," "," "," "," "," "," " },
+	{"","\xDA","\xC4","\xBF","\xB3","\xD9","\xC0","\xC3","\xB4","\xC2","\xB3","\xC1"},
+	{"","\xC9","\xCD","\xBB","\xBA","\xBC","\xC8","\xCC","\xB9","\xCB","\xBA","\xCA"},
+	{"","\xD5","\xCD","\xB8","\xB3","\xBE","\xD4","\xC6","\xB9","\xD1","\xB3","\xCF"},
+	{"","\xD6","\xC4","\xB7","\xBA","\xBD","\xD3","\xC7","\xC6","\xD2","\xBA","\xD0"}
 	};
 
-	bool mostra[10] = { true,false,false,false,false,false,false,false,false,false };
-	int index[] = { 0,1,2,3,4,5,6,7,8,9 };
-	int valor = 0;
-	std::string x[2] = {"","<<"};
-	menu lista[10];
-	lista[0].numero = index[0];
-	lista[1].numero = index[1];
-	lista[2].numero = index[2];
-	lista[3].numero = index[3];
-	lista[4].numero = index[4];
-	lista[5].numero = index[5];
-	lista[6].numero = index[6];
-	lista[7].numero = index[7];
-	lista[8].numero = index[8];
-	lista[9].numero = index[9];
-	lista[0].x = mostra[0];
-	lista[1].x = mostra[1];
-	lista[2].x = mostra[2];
-	lista[3].x = mostra[3];
-	lista[4].x = mostra[4];
-	lista[5].x = mostra[5];
-	lista[6].x = mostra[6];
-	lista[7].x = mostra[7];
-	lista[8].x = mostra[8];
-	while (true)
+	while (!finish)
 	{
-
-		if (GetAsyncKeyState(VK_RIGHT)) {
-			if (valor == 5){
-				lista[valor].x = !lista[valor].x;
-				valor = -1;
+		if (change)
+		{
+			setCursorPosition(0, 0);
+			std::cout << Style[2][1];
+			for (int i = 0; i < 30; ++i) std::cout << Style[2][2];
+			std::cout << Style[2][3];
+			int line = 1;
+			for (line = 1; line < 9; ++line)
+			{
+				setCursorPosition(0, line);
+				std::cout << Style[2][4];
+				for (int i = 0; i < 30; ++i) std::cout << " ";
+				std::cout << Style[2][4];
 			}
-			valor++;
-			lista[valor-1].x = !lista[valor-1].x;
-			lista[valor].x = !lista[valor].x;
+			setCursorPosition(0, 9);
+			std::cout << Style[2][6];
+			for (int i = 0; i < 30; ++i) std::cout << Style[2][2];
+			std::cout << Style[2][5];
+			
+			setCursorPosition(8, 0);
+			size_t i = 0;
+			setConsoleColour(FOREGROUND_BLUE);
+			std::cout << "Menu\r";
+			setCursorPosition(10, 1);
+			setConsoleColour(FOREGROUND_RED);
+			std::cout << "Shadowy\r";
+			setConsoleColour(0x7);
+			std::cout << std::endl;
+			setCursorPosition(2, 2);
+			checkbox1.show(pos);
+			++i;
+			setCursorPosition(2, 3);
+			checkbox2.show(pos);
+			++i;
+			setCursorPosition(2, 4);
+			text1.show(pos);
+			++i;
+			setCursorPosition(2, 5);
+			trackbar1.Show(pos);
+			++i;
+			setCursorPosition(2, 6);
+			cb1.Show(pos);
+			++i;
+			setCursorPosition(2, 7);
+			pos == i ? std::cout << "> "<< "MOVE MENU" << "\n"
+				: std::cout << "  " << "MOVE MENU" << "\n";
+			++i;
+			setCursorPosition(2, 8);
+			pos == i ? std::cout << "> " << "Exit" << "\n"
+				: std::cout << "  " << "Exit" << "\n";
+			std::cout.flush();
+			
+			max = i;
+			change = false;
 		}
-		else if (GetAsyncKeyState(VK_LEFT)) {
-				if (valor == 0){
-					lista[valor].x = !lista[valor].x;
-					valor = 6;
-				}
-				valor--;
-				lista[valor + 1].x = !lista[valor + 1].x;
-				lista[valor].x = !lista[valor].x;
-		}else if (GetAsyncKeyState(VK_DOWN)) {
-			if (valor == 5) {
-				lista[valor].x = !lista[valor].x;
-				valor = -3;
-			}
-			valor+=3;
-			lista[valor - 3].x = !lista[valor - 3].x;
-			lista[valor].x = !lista[valor].x;
+
+		if (GetAsyncKeyState(VK_UP))
+		{
+			--pos;
+			if (pos < 0)
+				pos = max;
+			change = true;
 		}
-		else if (GetAsyncKeyState(VK_UP)) {
-			if (valor == 0) {
-				lista[valor].x = !lista[valor].x;
-				valor = 5;
-			}
-			valor-=3;
-			lista[valor + 3].x = !lista[valor + 3].x;
-			lista[valor].x = !lista[valor].x;
+		if (GetAsyncKeyState(VK_DOWN))
+		{
+			++pos;
+			if (pos > max)
+				pos = 0;
+			change = true;
 		}
-		else if (GetAsyncKeyState(VK_RETURN))
-			break;
+		if (GetAsyncKeyState(VK_RIGHT))
+		{
 
-		std::cout << ">>index[" << index[valor] << "]<<\n";
+			checkbox1.ChangeValue(pos);
+			checkbox2.ChangeValue(pos);
+			text1.changeValue(pos);
+			trackbar1.changeValue(pos);
+			cb1.ChangeValue(pos);
+			move_console(pos, max-1);
+			pos == max ? finish = true : finish = false;
+			change = true;
+		}
 
-
-		
-		std::cout << lista[0].numero << " Cheat process " << x[lista[0].x] << "\t";
-		std::cout << lista[1].numero << " Injector " << x[lista[1].x] << "\t";
-		std::cout << lista[2].numero << " ReadAndWrite " << x[lista[2].x] << "\n";
-		std::cout << lista[3].numero << " Unknow " << x[lista[3].x] << "\t\t";
-		std::cout << lista[4].numero << " IDK " << x[lista[4].x] << "\t\t";
-		std::cout << lista[5].numero << " Exit " << x[lista[5].x] << "\n";
-
-		Sleep(50);
-		system("cls");
-
+		setCursorPosition(15,8);
+		setConsoleColour(FOREGROUND_BLUE);
+		std::cout << "Menu";
+		setCursorPosition(16,9);
+		setConsoleColour(FOREGROUND_RED);
+		std::cout << "Shadowy";
+		setConsoleColour(0x7);
+		std::cout.flush();
+		Sleep(100);
 	}
-	std::cout << lista[0].numero << " Cheat process " << x[lista[0].x] << "\t";
-	std::cout << lista[1].numero << " Injector " << x[lista[1].x] << "\t";
-	std::cout << lista[2].numero << " ReadAndWrite " << x[lista[2].x] << "\n";
-	std::cout << lista[3].numero << " Unknow " << x[lista[3].x] << "\t\t";
-	std::cout << lista[4].numero << " IDK " << x[lista[4].x] << "\t\t";
-	std::cout << lista[5].numero << " Exit " << x[lista[5].x] << "\n";
-	switch(valor){
+}
 
-	case 0:
-		std::cout << "\n\n\n\nOh Hello a Cheat Process! welcome and bye\n";
-		break;
-	case 1:
-		std::cout << "\n\n\n\nInjector huumm God choice\n";
-		break;
-	case 2:
-		std::cout << "\n\n\n\nWhat you to do? Write or Read?\n";
-		break;
-	case 3:
-		std::cout << "\n\n\n\n??????\n";
-		break;
-	case 4:
-		std::cout << "\n\n\n\nI`m sorry but, I unkow too...\n";
-		break;
-	case 5:
-		std::cout << "\n\n\n\nOkey Good Day, and thanks for used me\n";
-		break;
-	default:
-		break;
-	}
-
+int main()
+{
+	console = GetConsoleWindow();
+	SetWindowPos(console, NULL, PosConsole.x, PosConsole.y, sizeConsole.x, sizeConsole.y, NULL);
+	SetWindowLong(console, GWL_STYLE,  WS_BORDER   );
+	ShowWindow(console, SW_SHOW);
+	ExConsole();
+	loading();
+	menu();
 	return 0;
 }
