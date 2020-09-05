@@ -7,7 +7,7 @@ mas funcional
     #Cada um objeto é um tipo de interação para o usuário, CheckBox, TextEdit, TrackBar, ComboBox e ProgressBar;
 
 Declaração dos objetos:
-    NOME, *FUNC*, *ID*
+    NOME, *FUNC* & *ID*
     Nome é o unico **Obrigatorio** em todos.
 
 ex:
@@ -20,7 +20,7 @@ ex:
 Editar valor:
     use a função .ChangeValue(int pos);
     Pos = Posição atual dos objetos:
-    - [x] Se a posição for igual o id
-    - [ ] Se a posição for diferente do id
+    - [x] Se a posição for igual o id.
+    - [ ] Se a posição for diferente do id.
 se a posição for igual o id do objeto ele é marcado assim como também é possivel alterar;
 
