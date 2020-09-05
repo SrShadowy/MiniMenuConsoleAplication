@@ -12,6 +12,7 @@ mas funcional*
 
 Declaração dos objetos:
     NOME, **Func* & *Id**
+    
    **NOME** é o unico **Obrigatorio** em todos.
 
 ###### ex:
