@@ -25,7 +25,11 @@ Declaração dos objetos:
 
 Editar valor:
 **      use a função .ChangeValue(int pos);
+
         Pos = Posição atual dos objetos:**
+	
         - [x] Se a posição for igual o id.
+	
         - [ ] Se a posição for diferente do id.
+	
 se a posição for igual o id do objeto ele é marcado assim como também é possivel alterar.
