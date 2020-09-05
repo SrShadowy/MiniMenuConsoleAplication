@@ -8,7 +8,7 @@ mas funcional
 
 Declaração dos objetos:
     NOME, *FUNC*, *ID*
-    Nome é o unico @Obrigatorio em todos.
+    Nome é o unico **Obrigatorio** em todos.
 
     ex:
     checkbox checkbox1("caixa1");
