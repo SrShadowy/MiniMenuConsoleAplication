@@ -1,10 +1,14 @@
 ### MiniMenuConsoleAplication
 
-[GitHub Sponsors](https://github.com/SrShadowy)
-
+![GitHub Sponsors](https://github.com/SrShadowy)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
 
 *Um menu em c++ sem muita pespectiva.
 mas funcional*
+
+![Ilustrativo](https://i.imgur.com/Eka8veq.gif)
+
+![Movimentando](https://i.imgur.com/Wat5jfH.gif)
 
 **Como usar**
 
