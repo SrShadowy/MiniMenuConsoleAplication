@@ -1,6 +1,6 @@
 ### MiniMenuConsoleAplication
 
-![GitHub Sponsors](https://github.com/SrShadowy)
+[GitHub Sponsors](https://github.com/SrShadowy)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
 
 *Um menu em c++ sem muita pespectiva.
@@ -18,6 +18,12 @@ Declaração dos objetos:
     NOME, **Func* & *Id**
     
    **NOME** é o unico **Obrigatorio** em todos.
+
+|  Operating Systems  | Supported 32-bit | Supported 64-bit |
+|:-------------------:|:----------------:|:----------------:|
+| Windows 10          |         ✔        |         ✔       |
+
+
 
 ###### ex:
 ```Cpp
