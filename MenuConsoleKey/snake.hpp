@@ -5,7 +5,7 @@ bool cobra_tail = false;
 int vida = 1;
 int score = 0;
 
-int drawnX = 35;
+int drawnX = 30;
 int drawnY = 15;
 
 //Snake vars
@@ -103,7 +103,7 @@ void snake()
 	positions[2] = true;
 	posY.push_back(0);
 	srand((unsigned)time(NULL));
-	square(35, 15, 1, 1, 1);
+	//square(35, 15, 1, 1, 1);
 	bool pause = true;
 	bool quit = true;
 	while (quit)
@@ -116,7 +116,7 @@ void snake()
 		std::cout << "  Vida: " << vida << "\t\tPontos: " << score;
 		if (pause)
 		{
-			square(drawnX, drawnY, 1, 1, 1);
+			square(drawnX, drawnY, 2, 0, 1);
 
 
 			if (vida <= 0)

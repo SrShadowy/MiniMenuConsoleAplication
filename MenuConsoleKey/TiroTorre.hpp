@@ -4,6 +4,8 @@
 POINT quadrado = { 30,15 };
 int downSpeed = 1;
 
+
+
 class Bullet
 {
 public:
@@ -13,6 +15,9 @@ public:
 		bx = x;
 		by = y;
 	}
+	bool checkDualBullet() {
+		return dualBullet;
+	}
 	void shoot();
 	bool finish = false;
 	int bx = 0;
@@ -20,20 +25,30 @@ public:
 private:
 	std::string bullet = "|";
 	int velo = 1;
+	bool dualBullet = true;
 };
 
 void Bullet::shoot()
 {
-	setCursorPosition(bx, by);
-	std::cout << bullet;
-	by -= velo;
+	if (dualBullet)
+	{
+		setCursorPosition(bx - 1, by);
+		std::cout << bullet << " " << bullet;
 
-	if (by <= 0) 
+	}else
+	{ 
+
+		setCursorPosition(bx, by);
+		std::cout << bullet;
+	}
+
+	by -= velo;
+	if (by <= 0)
 	{
 		by = 99;
 		finish = false;;
 	}
-		
+
 }
 
 int tiro_points = 0;
@@ -42,7 +57,7 @@ int tiro_vida = 1;
 class Player
 {
 public:
-	Player(){}
+	Player();
 	void me();
 	void setVida(int qtVida)
 	{
@@ -76,18 +91,19 @@ private:
 	
 };
 
-inline void Player::me()
+Player::Player()
 {
 
-	setCursorPosition(x, y);
-	std::cout << " @";
-	setCursorPosition(x, y + 1);
-	std::cout << "@@@";
+}
+
+inline void Player::me()
+{
 
 	if (GetAsyncKeyState(VK_SPACE))
 	{
 		for (int i = 0; i < mybullets(); ++i)
 		{
+			
 			if (!myShoot[i].finish)
 			{
 				myShoot[i] = Bullet(x + 1, y - 1);
@@ -118,6 +134,13 @@ inline void Player::me()
 		}
 	}
 
+	setCursorPosition(x, y);
+	
+	std::cout << "@ @";
+	setCursorPosition(x, y + 1);
+	std::cout << "@@@";
+
+
 }
 
 
@@ -147,24 +170,32 @@ private:
 
 inline void Bloco::showBloco(Player PB)
 {
-	setCursorPosition(posXBloco, va);
 	
 	for(auto bullet : PB.myShoot)
 	{ 
-		if (bullet.bx == posXBloco && bullet.by == va)
+		if (bullet.checkDualBullet())
+		{
+			if ((bullet.bx -1 == posXBloco || bullet.bx + 1 == posXBloco) && bullet.by == va)
+			{
+				PB.incPoint(2);
+				destroy = true;
+			}
+		}
+		else if (bullet.bx == posXBloco && bullet.by == va)
 		{
 			PB.incPoint(2);
 			destroy = true;
 		}
 	}
-	if (posXBloco <= PB.x + 1 && posXBloco >= PB.x - 1 && va <= PB.y)
+	if (posXBloco <= PB.x + 1 && posXBloco >= PB.x - 1 && va >= PB.y)
 	{
 		PB.setVida(-1);
 		destroy = true;
 	}
-	
+	setCursorPosition(posXBloco, va);
 	std::cout << bloco;
-	std::cout.flush();
+	//std::cout.flush();
+
 }
 
 inline void Bloco::updateBloco()
@@ -188,6 +219,7 @@ void gaming()
 	bool lose = true;
 	while(lose)
 	{
+
 		square(quadrado.x, quadrado.y, 1, 0, 0);
 		if (count >= update)
 		{
@@ -213,18 +245,19 @@ void gaming()
 		}
 
 		Me.me();
+
 		setCursorPosition(0 , quadrado.y+1);
 		std::cout << "Pontos:"<< Me.showPoints();
 		std::string thisBullets = "";
-		for (size_t i = 0; i < Me.mybullets(); i++)
+		for (int i = 0; i < Me.mybullets(); i++)
 			thisBullets += "/";
 		
 		setCursorPosition((quadrado.x / 2), quadrado.y + 1);
 		std::cout <<"Vida: " << tiro_vida << " Balas: " << thisBullets;
 		if (tiro_vida < 0) lose = false;
 		std::cout.flush();
-		
 
+		//system("cls");
 		count++;
 		Sleep(50);
 	}
@@ -247,6 +280,7 @@ void Menu_tiro()
 	{
 		if (change)
 		{
+
 			int i = 0;
 			std::cout << "\t Game de nave";
 			square(30, 4, 2, 0, 1);
@@ -282,6 +316,7 @@ void Menu_tiro()
 		{
 			velo.changeValue(pos);
 			update = velo.value * 10;
+			tiro_vida = 2;
 			if (pos == max) menu = !menu;
 			change = true;
 		}
