@@ -1,5 +1,5 @@
 #include "head.h"
-#include "Objetos.h"
+#include "objetos.h"
 
 UINT ID_itens = 0;
 // Checkbox
@@ -80,10 +80,11 @@ void help()
 	std::cout << "Or only Name, for show this use : .show(), and chenge value is .ChangeValue(POSIITION)\n";
 }
 
+
 void square(int width, int hight, int type, int posX, int posY)
 {
-	std::string space = " ";
-	for (int i = 0; i < width; ++i) space.append(" ");
+
+	std::string space = std::string(width, ' ');
 	//Desenha a primiera curva superior
 	setCursorPosition(posX, posY);
 	std::cout << Style[type][1];
@@ -98,13 +99,13 @@ void square(int width, int hight, int type, int posX, int posY)
 		//Desenha a primeira linha vertical
 		setCursorPosition(posX, posY + line);
 		std::cout << Style[type][4];
-		
+
 		//Limpa as linhas
-		setCursorPosition(posX+1, posY + line);
+		setCursorPosition(posX + 1, posY + line);
 		std::cout << space;
 
 		//Desenha a segunda linha vertical
-		setCursorPosition(width+1, posY + line);
+		setCursorPosition(width + 1, posY + line);
 		std::cout << Style[type][4];
 	}
 	//desenha a primeira curva inferior
@@ -115,6 +116,7 @@ void square(int width, int hight, int type, int posX, int posY)
 	for (int i = 0; i < width; ++i) std::cout << Style[type][2];
 	//desenha a segunda curva inferior
 	std::cout << Style[type][5];
+
 }
 
 void setCursorPosition(int x, int y)
@@ -123,7 +125,6 @@ void setCursorPosition(int x, int y)
 	std::cout.flush();
 	COORD coord = { (SHORT)x, (SHORT)y };
 	SetConsoleCursorPosition(hOut, coord);
-	
 }
 
 void setConsoleColour(unsigned short colour)
@@ -184,7 +185,7 @@ void checkbox::show(int pos)
 {
 	if (pos == checkbox::id)
 		checkbox::check ? std::cout << "> [X]" << checkbox::name << "\n"
-		: std::cout << "> [*]" << checkbox::name << "\n";
+		: std::cout << "> [*]" << checkbox::name  << "\n";
 	else
 		checkbox::check ? std::cout << "  [X]" << checkbox::name << "\n"
 		: std::cout << "  [*]" << checkbox::name << "\n";
@@ -206,7 +207,7 @@ TextEdit::TextEdit(std::string textedit, int lenght, std::string buffer, int id)
 	TextEdit::name = textedit;
 	TextEdit::length = lenght;
 	TextEdit::buffer = buffer;
-	TextEdit::id = id;
+	TextEdit::id = id;	
 	++ID_itens;
 }
 /*
@@ -215,7 +216,7 @@ TextEdit::TextEdit(std::string textedit, int lenght, std::string buffer, int id)
 TextEdit::TextEdit(std::string textedit, std::string buffer)
 {
 	TextEdit::name = textedit;
-	TextEdit::length = buffer.length() + 2;
+	TextEdit::length = buffer.length()+2;
 	TextEdit::buffer = buffer;
 	TextEdit::id = ID_itens;
 	++ID_itens;
@@ -251,9 +252,9 @@ void TextEdit::show(int pos)
 	texts.append("]");
 
 	if ((id == pos))
-		std::cout << "> " << texts << name << std::endl;
+		std::cout  << "> " << texts << name << std::endl;
 	else
-		std::cout << "  " << texts << name << std::endl;
+		std::cout  << "  " << texts << name << std::endl;
 }
 
 void TextEdit::changeValue(int pos)
@@ -329,9 +330,9 @@ void TrackBar::Show(int pos)
 	texts.append("]");
 
 	if ((id == pos))
-		std::cout << "> " << texts << name << std::endl;
+		std::cout  << "> " << texts << name << std::endl;
 	else
-		std::cout << "  " << texts << name << std::endl;
+		std::cout  << "  " << texts << name << std::endl;
 }
 
 void TrackBar::changeValue(int pos)
@@ -339,7 +340,7 @@ void TrackBar::changeValue(int pos)
 	if (id == pos)
 	{
 		++value;
-		if (value > max)
+		if (value > max)	
 			value = min;
 	}
 }
@@ -399,15 +400,15 @@ void ComboBox::ChangeValue(int pos)
 	if (pos == id)
 	{
 		cls();
-		bool complete = true;
-		int lis_pos = 0, total = 3;
-		std::string options[] = { "|Add|", "|Remove|", "|Select|", "|End|" };
-		bool ReWrite = true;
+	bool complete = true;
+	int lis_pos = 0, total = 3;
+	std::string options[] = { "|Add|", "|Remove|", "|Select|", "|End|" };
+	bool ReWrite = true;
 		while (complete)
 		{
 			if (GetAsyncKeyState(VK_UP))
 			{
-
+				
 				--lis_pos;
 				if (lis_pos < 0)
 					lis_pos = total;
@@ -453,7 +454,7 @@ void ComboBox::ChangeValue(int pos)
 					int rm_num = 0;
 					for (auto line : list)
 					{
-						std::cout << "[" << rm_num << "][" << line << "]" << std::endl;
+						std::cout << "["<< rm_num << "][" << line << "]" << std::endl;
 						rm_num++;
 					}
 					std::cout << "Write number of want delete > ";
@@ -475,7 +476,7 @@ void ComboBox::ChangeValue(int pos)
 					std::cin.clear();
 					text = list[rm_num];
 					std::cout << "Text: " << text << std::endl;
-
+					
 					ReWrite = true;
 				}
 				if (lis_pos == total)
@@ -483,10 +484,10 @@ void ComboBox::ChangeValue(int pos)
 					complete = false;
 					cls();
 				}
-
-
+					
+				
 			}
-
+			
 			Sleep(100);
 		}
 	}
@@ -515,7 +516,7 @@ ProgressBar::ProgressBar(std::string name)
 	ProgressBar::value = 0;
 	++ID_itens;
 }
-
+ 
 void ProgressBar::Show(int pos)
 {
 	std::string bar;
@@ -525,7 +526,7 @@ void ProgressBar::Show(int pos)
 	{
 		if (x <= value)
 			bar.append("|");
-		else
+		else	
 			bar.append(".");
 	}
 	bar.append("]");

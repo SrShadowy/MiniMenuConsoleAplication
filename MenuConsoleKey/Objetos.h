@@ -1,5 +1,4 @@
 #pragma once
-#include "head.h"
 void ExConsole();
 void setCursorPosition(int x, int y);
 void setConsoleColour(unsigned short colour);
@@ -18,7 +17,7 @@ public:
 	void show(int pos);
 	void ChangeValue(int pos);
 
-	std::string name; bool check;
+	std::string name; bool check; 
 private:
 	int id;
 
@@ -34,7 +33,7 @@ public:
 	void show(int pos);
 	void changeValue(int pos);
 
-	std::string name; size_t length;
+		std::string name; size_t length;
 private:
 	std::string buffer;
 	int id;
@@ -90,4 +89,62 @@ private:
 	float min = 0.0f;
 
 	std::string name;
+};
+
+
+class timer
+{
+private:
+	uint64_t internal_tick = 0;
+	uint32_t interval = 0;
+	bool enable = true;
+	bool tick_count = false;
+	void tick()
+	{
+		if (enable)
+			tick_count = (GetTickCount64() > internal_tick);
+		else
+			tick_count = false;
+
+		if (tick_count)
+			internal_tick = GetTickCount64() + interval;
+	}
+
+public:
+
+	timer()
+	{
+		timer::interval = 100;
+		timer::enable = true;
+		internal_tick = GetTickCount64() + interval;
+	}
+
+	timer(int interval, bool enable)
+	{
+		timer::interval = interval;
+		timer::enable = enable;
+		internal_tick = GetTickCount64() + interval;
+	}
+
+	// check_tick
+	bool timer_on()
+	{
+		tick();
+		return tick_count;
+	}
+	// stop tick
+	void stop()
+	{
+		enable = false;
+	}
+	// start again
+	void start()
+	{
+		enable = true;
+	}
+	// change interval
+	void set_new_interval(int new_interval)
+	{
+		interval = new_interval;
+	}
 };
